@@ -74,11 +74,11 @@ const mainMenu = () => {
 
 const viewEmployees = () => {
 
-    connection.query("SELECT employeeLog.id, employeeLog.first_name, employeeLog.last_name, roleLog.title, roleLog.salary, departmentLog.name FROM employeeLog INNER JOIN roleLog ON employeeLog.role_id = roleLog.id INNER JOIN departmentLog ON roleLog.department_id = departmentLog.id", (err, res) => {
-            if (err) throw (err)
-            console.table(res)
-            mainMenu();
-        })
+    connection.query(`SELECT employeeLog.id, CONCAT(employeeLog.first_name, ' ', employeeLog.last_name) AS person, roleLog.title, roleLog.salary FROM employeeLog INNER JOIN roleLog on roleLog.id = employeeLog.role_id;`, (err, res) => {
+        if (err) throw (err)
+        console.table(res)
+        mainMenu();
+    })
 };
 
 const viewDepartments = () => {
@@ -197,7 +197,7 @@ const updateEmployeeRole = () => {
         {
             type: 'input',
             name: 'employeeRole',
-            message: 'New role number?'
+            message: 'New role id number?'
         }
     ]).then(function(answer) {
         connection.query('UPDATE employeeLog SET ?  WHERE ?',[{
