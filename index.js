@@ -59,8 +59,7 @@ const mainMenu = () => {
                     break;
 
                 case 'View roles':
-                    console.log('blah');
-                    mainMenu();
+                    viewRoles();
                     break;
 
                 case 'Update employee role':
@@ -92,6 +91,15 @@ const viewDepartments = () => {
         mainMenu(); 
      })    
 };
+
+const viewRoles = () => {
+
+    connection.query('SELECT * FROM departmentLog', (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        mainMenu(); 
+    })
+}
 
 const addEmployee = () => {
     inquirer
