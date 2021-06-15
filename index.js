@@ -42,8 +42,7 @@ const mainMenu = () => {
                     break;
 
                 case 'Add department':
-                    console.log('blah');
-                    mainMenu();
+                    addDepartment();
                     break;
 
                 case 'Add role':
@@ -127,6 +126,21 @@ const addEmployee = () => {
         })
         console.log('Employee Added')
         viewEmployees()
+    })
+}
+
+const addDepartment = () => {
+
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'department',
+            message: 'Name of new department?'
+        }
+    ]).then(function(input) {
+        connection.query('INSERT INTO departmentLog SET ?', {name: input.department})
+        viewDepartments();
     })
 }
 
