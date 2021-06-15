@@ -62,11 +62,10 @@ const mainMenu = () => {
                     break;
 
                 case 'Update employee role':
-                    console.log('blah');
-                    mainMenu();
+                    updateEmployeeRole();
                     break;
 
-                case 'Update employee role':
+                case 'QUIT':
                     console.log('Goodbye');
                     break;
             }
@@ -186,3 +185,32 @@ const addRoles = () => {
     }) 
 }
 
+const updateEmployeeRole = () => {
+
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'employeeId',
+            message: 'ID number of employee youd like to update:'
+        },
+        {
+            type: 'input',
+            name: 'employeeRole',
+            message: 'New role number?'
+        }
+    ]).then(function(answer) {
+        connection.query('UPDATE employeeLog SET ?  WHERE ?',[{
+            role_id: answer.employeeRole
+        },
+        {
+            id: answer.employeeId
+        }], function(err, data) {
+            if (err) {
+                console.log(err);
+                return;
+            }else
+            viewEmployees();
+        })
+    })
+}
