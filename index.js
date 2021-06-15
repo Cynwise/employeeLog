@@ -46,8 +46,7 @@ const mainMenu = () => {
                     break;
 
                 case 'Add role':
-                    console.log('blah');
-                    mainMenu();
+                    addRoles();
                     break;
 
                 case 'View employees':
@@ -94,7 +93,7 @@ const viewDepartments = () => {
 
 const viewRoles = () => {
 
-    connection.query('SELECT * FROM departmentLog', (err, res) => {
+    connection.query('SELECT * FROM roleLog', (err, res) => {
         if (err) throw err;
         console.table(res);
         mainMenu(); 
@@ -150,5 +149,40 @@ const addDepartment = () => {
         connection.query('INSERT INTO departmentLog SET ?', {name: input.department})
         viewDepartments();
     })
+}
+
+const addRoles = () => {
+
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'roleName',
+            message: 'Name of role?'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'Salary?'
+        },
+        {
+            type: 'input',
+            name: 'roleId',
+            message: 'Employee role id?'
+        },
+        {
+            type: 'input',
+            name: 'departmentId',
+            message: 'Department id?'
+        },
+    ])
+    .then((answer) => {
+        connection.query('INSERT into roleLog SET ?', {
+            title: answer.roleName,
+            salary: answer.salary,
+            department_id: answer.departmentId
+        })
+        viewRoles()
+    }) 
 }
 
