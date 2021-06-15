@@ -1,12 +1,14 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 
+
+//server connection
 const connection = mysql.createConnection({
 
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password:'passwordhere',
+    password:'password here',
     database: 'employeeLogdb',
 });
 
@@ -17,6 +19,7 @@ connection.connect((err) => {
     mainMenu();
 });
 
+// main menu function using inquirer
 const mainMenu = () => {
     inquirer
         .prompt({
@@ -72,6 +75,7 @@ const mainMenu = () => {
         });
 }
 
+// displays all employees in the database
 const viewEmployees = () => {
 
     connection.query(`SELECT employeeLog.id, CONCAT(employeeLog.first_name, ' ', employeeLog.last_name) AS person, roleLog.title, roleLog.salary FROM employeeLog INNER JOIN roleLog on roleLog.id = employeeLog.role_id;`, (err, res) => {
@@ -81,6 +85,7 @@ const viewEmployees = () => {
     })
 };
 
+// displays all departments in the database
 const viewDepartments = () => {
 
     connection.query("SELECT * FROM departmentLog", (err, res) => {
@@ -90,6 +95,7 @@ const viewDepartments = () => {
      })    
 };
 
+// displays all the roles in the database
 const viewRoles = () => {
 
     connection.query('SELECT * FROM roleLog', (err, res) => {
@@ -99,6 +105,7 @@ const viewRoles = () => {
     })
 }
 
+// adds an employee to the database
 const addEmployee = () => {
     inquirer
     .prompt([
@@ -135,6 +142,7 @@ const addEmployee = () => {
     })
 }
 
+// add a new department to the database
 const addDepartment = () => {
 
     inquirer
@@ -150,6 +158,7 @@ const addDepartment = () => {
     })
 }
 
+// adds a new roles to the database
 const addRoles = () => {
 
     inquirer
@@ -185,6 +194,7 @@ const addRoles = () => {
     }) 
 }
 
+// update an existing employees role
 const updateEmployeeRole = () => {
 
     inquirer
